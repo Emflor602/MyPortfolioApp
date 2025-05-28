@@ -1,32 +1,34 @@
-import { Image } from 'expo-image';
-import { StyleSheet } from 'react-native';
-
-
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import Card from '@/components/Card';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { FlatList, ScrollView, StyleSheet } from 'react-native';
+import portfolio from '../../data/portfolio.json';
 
 export default function HomeScreen() {
+  const portfolioData = portfolio
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <ScrollView style={styles.container}>
+      <ThemedText type="subtitle">Welcome to My Portfolio</ThemedText>
+      <ThemedView style={styles.container}>
+        <FlatList
+          data={portfolio}
+          keyExtractor={(item) => item.title}
+          renderItem={({ item }) => (
+            <Card 
+              {...item}
+            />
+          )}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome to My Portfolio!</ThemedText>
-
       </ThemedView>
-
-    
-    </ParallaxScrollView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
